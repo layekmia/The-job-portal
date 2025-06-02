@@ -4,17 +4,22 @@ import 'dotenv/config';
 import bodyParser from 'body-parser';
 import connectDB from './config/db.js';
 import { clerkWebhooks } from './controllers/webhooks.js';
+import companyRoutes from './routes/companyRoutes.js';
+import connectCloudinary from './config/cloudinary.js';
+import jobsRoute from './routes/jobRoutes.js';
 
 const app = express();
 
 // Connect DB
-connectDB();
+await connectDB();
+await connectCloudinary();
 
 // CORS Middleware
 app.use(cors());
 
 // JSON middleware for all routes except /webhooks
 app.use(express.json());
+
 
 // Routes
 app.get('/', (req, res) => {
@@ -23,6 +28,10 @@ app.get('/', (req, res) => {
 
 // Webhook route must come BEFORE express.json and must use raw body parser
 app.post('/webhooks', bodyParser.raw({ type: 'application/json' }), clerkWebhooks);
+app.use('/api/company', companyRoutes);
+
+// it will be public api we don't need any token
+app.use('/api/jobs', jobsRoute ); 
 
 // Start server
 const PORT = process.env.PORT || 5000;

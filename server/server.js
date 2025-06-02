@@ -18,7 +18,7 @@ app.use(express.json());
 
 // Routes
 app.get('/', (req, res) => {
-    res.send("API Working");
+    res.send("API Working so good");
 });
 
 // Webhook route must come BEFORE express.json and must use raw body parser

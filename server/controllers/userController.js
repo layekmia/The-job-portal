@@ -2,7 +2,7 @@
 
 // get user data;
 export const getUserData = async(req, res) => {
-
+    
 }
 
 // Apply for a job;
